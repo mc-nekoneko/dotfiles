@@ -30,6 +30,11 @@ imap <C-h> <C-o>:%s/from/to/g
 " NERD Tree
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
+" FZF
+nnoremap <silent><C-p> :Files<CR>
+nnoremap <silent><Leader>f :Rg<CR>
+nnoremap <silent><Leader>b :Buffers<CR>
+
 " Improve Quickfix List
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>

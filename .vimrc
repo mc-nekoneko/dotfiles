@@ -22,7 +22,6 @@ set encoding=utf-8
 
 " Auto reload
 set autoread
-au CursorHold * checktime
 au CursorHold,CursorHoldI * checktime
 au FocusGained,BufEnter * checktime
 augroup vimrc-checktime
@@ -38,5 +37,5 @@ augroup END
 set hlsearch
 set incsearch
 
-" Setup Vundle
+" Setup vim-plug
 filetype plugin indent on    " required

@@ -36,10 +36,25 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-echo "$_TASK Executing: 'vim -c :PlugInstall'"
-vim -c ':PlugInstall' -c ':q' -c ':q'
-nvim -c ':PlugInstall' -c ':q' -c ':q'
+echo "$_TASK Executing: 'vim PlugClean & PlugInstall'"
+vim -c ':PlugClean!' -c ':PlugInstall' -c ':qa!'
+nvim -c ':PlugClean!' -c ':PlugInstall' -c ':qa!'
 echo "$_TASK Installed vim packages"
+
+echo "$_TASK Installing LSP servers..."
+# Install LSP servers for common languages
+LSP_SERVERS=(
+    "typescript-language-server"
+    "gopls"
+    "rust-analyzer"
+    "vscode-html-language-server"
+    "vscode-css-language-server"
+)
+for server in "${LSP_SERVERS[@]}"; do
+    echo "$_INFO Installing LSP: $server"
+    nvim --headless -c "LspInstallServer $server" -c 'qa!' 2>/dev/null || true
+done
+echo "$_TASK Installed LSP servers"
 
 echo "$_INFO Operation success! starting zsh..."
 exec zsh

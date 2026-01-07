@@ -2,6 +2,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 
+" Fuzzy finder (requires fzf installed)
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 Plug 'ujihisa/unite-colorscheme'
 Plug 'tomasr/molokai'
 
@@ -9,25 +13,21 @@ Plug 'tomasr/molokai'
 
 Plug 'itchyny/lightline.vim'
 
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 Plug 'andrewstuart/vim-kubernetes'
 
 Plug 'Chiel92/vim-autoformat'
 
-Plug 'nsf/gocode', {'rtp': 'vim/'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 
-" JS
+" JS/TS
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'Galooshi/vim-import-js'
-Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'HerringtonDarkholme/yats.vim'  " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'      " JSX/TSX syntax
 
 " toml
 Plug 'cespare/vim-toml'
@@ -43,7 +43,6 @@ Plug 'alvan/vim-closetag'
 
 " lsp
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -55,83 +54,22 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
 
-" LSP -> C/CPP
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd', '-background-index']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
+" LSP -> C/CPP (auto-configured by vim-lsp-settings with clangd)
 
-" LSP -> Python
-Plug 'ryanolsonx/vim-lsp-python'
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
+" LSP -> Python (auto-configured by vim-lsp-settings)
+" Install: pip install python-lsp-server
 
-" HTML
-if executable('html-languageserver')
-  au User lsp_setup call lsp#register_server({
-    \ 'name': 'html-languageserver',
-    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'html-languageserver --stdio']},
-    \ 'whitelist': ['html'],
-  \ })
-endif
+" HTML (auto-configured by vim-lsp-settings with vscode-html-language-server)
 
-" LSP -> Go
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go "LspDocumentFormatSync<CR>"
-endif
-if executable('go-langserver')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'go-langserver',
-        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go "LspDocumentFormatSync<CR>"
-endif
+" LSP -> Go (auto-configured by vim-lsp-settings with gopls)
+" Format on save handled by vim-go
 
-" LSP -> Java
+" LSP -> Java (auto-configured by vim-lsp-settings with eclipse.jdt.ls)
+" For Lombok support, set the following in your environment:
+" let g:lsp_settings = {'eclipse-jdt-ls': {'initialization_options': {'bundles': [expand('~/lsp/lombok.jar')]}}}
 let s:lombok_path = $HOME . '/lsp/lombok.jar'
-if executable('java') && filereadable(expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar')) && filereadable(expand(s:lombok_path))
-
-    " ale の設定
+if filereadable(expand(s:lombok_path))
     let g:ale_java_javac_options = "-cp " . s:lombok_path
-
-    " vim-lsp の設定
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'eclipse.jdt.ls',
-        \ 'cmd': {server_info->[
-        \     'java',
-        \     '-javaagent:' . s:lombok_path,
-        \     '-Xbootclasspath/a:' . s:lombok_path,
-        \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-        \     '-Dosgi.bundles.defaultStartLevel=4',
-        \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        \     '-Dlog.level=ALL',
-        \     '-noverify',
-        \     '-Dfile.encoding=UTF-8',
-        \     '-Xmx1G',
-        \     '-jar',
-        \     expand('~/lsp/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar'),
-        \     '-configuration',
-        \     expand('~/lsp/eclipse.jdt.ls/config_linux'),
-        \     '-data',
-        \     getcwd()
-        \ ]},
-        \ 'whitelist': ['java'],
-        \ })
 endif
 
 " Markdown
@@ -150,9 +88,8 @@ if executable('prettier')
 endif
 
 
-" rust
+" rust (rust-analyzer is auto-configured by vim-lsp-settings)
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
 
 let g:asyncomplete_auto_popup = 1
 
@@ -175,12 +112,13 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 "let g:ycm_autoclose_preview_window_after_insertion = 1
 "set splitbelow
 
-" mattn's vim config
+" Auto LSP server installer and configurator
+" Run :LspInstallServer in a buffer to install the LSP for that filetype
 Plug 'mattn/vim-lsp-settings'
 
 
 " Syntax Highlight
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 " Auto Fix Trailing White-Space
 Plug 'bronson/vim-trailing-whitespace'

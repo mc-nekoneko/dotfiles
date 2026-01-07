@@ -4,15 +4,15 @@ let g:lsp_log_file = expand('~/.cache/tmp/vim-lsp.log')  " ログ出力のPATH�
 " 言語用Serverの設定
 augroup MyLsp
   autocmd!
-  " pip install python-language-server
-  if executable('pyls')
+  " pip install python-lsp-server
+  if executable('pylsp')
     " Python用の設定を記載
     " workspace_configで以下の設定を記載
     " - pycodestyleの設定はALEと重複するので無効にする
     " - jediの定義ジャンプで一部無効になっている設定を有効化
     autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': { server_info -> ['pyls'] },
+        \ 'name': 'pylsp',
+        \ 'cmd': { server_info -> ['pylsp'] },
         \ 'whitelist': ['python'],
         \ 'workspace_config': {'pyls': {'plugins': {
         \   'pycodestyle': {'enabled': v:false},

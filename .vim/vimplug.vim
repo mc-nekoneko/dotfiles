@@ -2,9 +2,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'git://git.wincent.com/command-t.git'
 
-"Plug 'Shougo/neocomplete'
+" Fuzzy finder (requires fzf installed)
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 Plug 'Shougo/unite.vim'
 Plug 'ujihisa/unite-colorscheme'
@@ -15,14 +16,19 @@ Plug 'itchyny/lightline.vim'
 
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 Plug 'posva/vim-vue'
+
+" JS/TS
+Plug 'pangloss/vim-javascript'       " JavaScript syntax
+Plug 'HerringtonDarkholme/yats.vim'  " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'      " JSX/TSX syntax
 
 Plug 'Chiel92/vim-autoformat'
 
 " Syntax Highlight
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 " Auto Fix Trailing White-Space
 Plug 'bronson/vim-trailing-whitespace'
