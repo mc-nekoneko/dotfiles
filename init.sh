@@ -19,6 +19,7 @@ _search() {
         | sed -e 's/\.\///g'
 
     find .config/ -mindepth 1 -maxdepth 1 \
+        -not -name 'alacritty' \
         | sed -e 's/\.\///g'
 }
 
@@ -61,6 +62,13 @@ _install() {
     for f in $(_search); do
         ln -snfv $PWD/$f $HOME/$f
     done
+
+    # OS-specific config: Alacritty
+    OS=$(bash $PWD/.misc/get-osdist.sh | head -1)
+    echo "$_TASK Setting up Alacritty for $OS..."
+    mkdir -p $HOME/.config/alacritty
+    ln -snfv $PWD/.config/alacritty/alacritty.$OS.toml $HOME/.config/alacritty/alacritty.toml
+
     bash $PWD/setup/init.sh
 }
 
@@ -71,6 +79,9 @@ _clean() {
     for f in $(_search); do
         rm -rfv $HOME/$f
     done
+
+    echo "$_TASK Removing Alacritty config..."
+    rm -rfv $HOME/.config/alacritty
 
     echo "$_TASK Removing fzf"
     rm -rf $HOME/.fzf
