@@ -37,8 +37,9 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 echo "$_TASK Executing: 'vim PlugClean & PlugInstall'"
-vim -c ':PlugClean!' -c ':PlugInstall' -c ':qa!'
-nvim -c ':PlugClean!' -c ':PlugInstall' -c ':qa!'
+# Disable ALE during plugin installation to prevent errors
+vim --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
+nvim --headless --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
 echo "$_TASK Installed vim packages"
 
 echo "$_TASK Installing LSP servers..."
