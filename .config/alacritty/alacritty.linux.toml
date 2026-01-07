@@ -49,22 +49,22 @@ cyan = "0x8FBCBB"
 white = "0xECEFF4"
 
 [font]
-size = 12
+size = 14
 
 [font.normal]
-family = "monospace"
+family = "PlemolJP Console NF"
 style = "Regular"
 
 [font.bold]
-family = "monospace"
+family = "PlemolJP Console NF"
 style = "Bold"
 
 [font.italic]
-family = "monospace"
+family = "PlemolJP Console NF"
 style = "Italic"
 
 [font.bold_italic]
-family = "monospace"
+family = "PlemolJP Console NF"
 style = "Bold Italic"
 
 [selection]

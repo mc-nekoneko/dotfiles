@@ -21,6 +21,18 @@ if [ "$OS" = "macos" ]; then
     else
         echo "$_INFO gls already installed"
     fi
+
+    # Install PlemolJP font
+    echo "$_TASK Setup PlemolJP font (macOS)..."
+    if command -v brew &> /dev/null; then
+        if ! brew list --cask font-plemol-jp-nf &> /dev/null; then
+            brew install --cask font-plemol-jp-nf
+        else
+            echo "$_INFO PlemolJP Nerd Font already installed"
+        fi
+    else
+        echo "$_WARN Homebrew not found. Please install font manually: brew install --cask font-plemol-jp-nf"
+    fi
 fi
 
 echo "$_TASK Setup fzf..."
