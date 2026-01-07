@@ -8,6 +8,21 @@ _TASK=$(printf "\e[1;34m::\e[m")
 _WARN=$(printf "\e[1;33m!!\e[m")
 _ERROR=$(printf "\e[1;31m!!\e[m")
 
+# macOS: Install GNU coreutils for gls
+OS=$(bash "$(dirname "$0")/../.misc/get-osdist.sh" | head -1)
+if [ "$OS" = "macos" ]; then
+    echo "$_TASK Setup GNU coreutils (macOS)..."
+    if ! command -v gls &> /dev/null; then
+        if command -v brew &> /dev/null; then
+            brew install coreutils
+        else
+            echo "$_WARN Homebrew not found. Please install coreutils manually: brew install coreutils"
+        fi
+    else
+        echo "$_INFO gls already installed"
+    fi
+fi
+
 echo "$_TASK Setup fzf..."
 if [ ! -d ~/.fzf ]; then
     git clone https://github.com/junegunn/fzf.git ~/.fzf
