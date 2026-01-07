@@ -14,13 +14,9 @@ if [ ! -d ~/.fzf ]; then
     ~/.fzf/install --all --no-bash --no-fish
 fi
 
-echo "$_TASK Setup Antigen..."
-if [ ! -d ~/.antigen ]; then
-    mkdir -p ~/.antigen
-    curl -L git.io/antigen > ~/.antigen/antigen.zsh
-    if [ $(which zsh) ]; then
-        zsh -c "source ~/.zshrc && exit 0"
-    fi
+echo "$_TASK Setup zgenom..."
+if [ ! -d ~/.zgenom ]; then
+    git clone https://github.com/jandamm/zgenom.git ~/.zgenom
 fi
 
 echo "$_TASK Setup tpm..."

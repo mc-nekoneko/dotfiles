@@ -86,8 +86,8 @@ _clean() {
     echo "$_TASK Removing fzf"
     rm -rf $HOME/.fzf
 
-    echo "$_TASK Removing Antigen"
-    rm -rf $HOME/.antigen
+    echo "$_TASK Removing zgenom"
+    rm -rf $HOME/.zgenom
 
     echo "$_TASK Removing vim bundles..."
     rm -rf $HOME/.vim/bundle
