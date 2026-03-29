@@ -107,3 +107,9 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #export POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh && source $HOME/.zsh/p10k.zsh
+
+# krew
+[ -d "${KREW_ROOT:-$HOME/.krew}/bin" ] && export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Android SDK
+[ -d "$HOME/Library/Android/sdk" ] && export ANDROID_HOME="$HOME/Library/Android/sdk" && export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools"
