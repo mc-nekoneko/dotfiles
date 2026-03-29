@@ -164,6 +164,17 @@ mods = "Control|Shift"
 mode = "Vi"
 action = "ClearSelection"
 
+# macOS Cmd+Arrow → Home/End
+[[keyboard.bindings]]
+key = "Left"
+mods = "Super"
+chars = "\u001b[H"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Super"
+chars = "\u001b[F"
+
 [[keyboard.bindings]]
 key = "Key0"
 mods = "Control"
