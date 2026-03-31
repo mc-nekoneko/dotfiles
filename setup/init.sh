@@ -8,30 +8,41 @@ _TASK=$(printf "\e[1;34m::\e[m")
 _WARN=$(printf "\e[1;33m!!\e[m")
 _ERROR=$(printf "\e[1;31m!!\e[m")
 
-# macOS: Install GNU coreutils for gls
 OS=$(bash "$(dirname "$0")/../.misc/get-osdist.sh" | head -1)
+
 if [ "$OS" = "macos" ]; then
+    # Install Homebrew
+    if ! command -v brew &> /dev/null; then
+        echo "$_TASK Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        # Add brew to PATH for Apple Silicon Macs
+        if [ -x /opt/homebrew/bin/brew ]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        elif [ -x /usr/local/bin/brew ]; then
+            eval "$(/usr/local/bin/brew shellenv)"
+        fi
+    else
+        echo "$_INFO Homebrew already installed"
+    fi
+
+    # Install GNU coreutils for gls
     echo "$_TASK Setup GNU coreutils (macOS)..."
     if ! command -v gls &> /dev/null; then
-        if command -v brew &> /dev/null; then
-            brew install coreutils
-        else
-            echo "$_WARN Homebrew not found. Please install coreutils manually: brew install coreutils"
-        fi
+        brew install coreutils
     else
         echo "$_INFO gls already installed"
     fi
 
-    # Install PlemolJP font
+    # Apply macOS system settings
+    echo "$_TASK Apply macOS system settings..."
+    bash "$(dirname "$0")/macos.sh"
+
+    # Install PlemolJP Nerd Font
     echo "$_TASK Setup PlemolJP font (macOS)..."
-    if command -v brew &> /dev/null; then
-        if ! brew list --cask font-plemol-jp-nf &> /dev/null; then
-            brew install --cask font-plemol-jp-nf
-        else
-            echo "$_INFO PlemolJP Nerd Font already installed"
-        fi
+    if ! brew list --cask font-plemol-jp-nf &> /dev/null; then
+        brew install --cask font-plemol-jp-nf
     else
-        echo "$_WARN Homebrew not found. Please install font manually: brew install --cask font-plemol-jp-nf"
+        echo "$_INFO PlemolJP Nerd Font already installed"
     fi
 fi
 
