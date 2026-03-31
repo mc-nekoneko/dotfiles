@@ -11,8 +11,8 @@ clean: ## Remove dotfiles
 
 reinstall: clean install ## Reinstall dotfiles Environment
 
-macos-bundle: ## Install Homebrew packages via Brewfile
-	@brew bundle --file=$(PWD)/Brewfile
+macos-bundle: ## Install Homebrew (if needed) and packages via Brewfile
+	@bash $(PWD)/setup/bundle.sh
 
 help: ## Show help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \

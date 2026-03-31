@@ -11,31 +11,6 @@ _ERROR=$(printf "\e[1;31m!!\e[m")
 OS=$(bash "$(dirname "$0")/../.misc/get-osdist.sh" | head -1)
 
 if [ "$OS" = "macos" ]; then
-    # Install Homebrew
-    if ! command -v brew &> /dev/null; then
-        echo "$_TASK Installing Homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        # Add brew to PATH (persistent + current session)
-        if [ -x /opt/homebrew/bin/brew ]; then
-            echo >> "$HOME/.zprofile"
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        elif [ -x /usr/local/bin/brew ]; then
-            echo >> "$HOME/.zprofile"
-            echo 'eval "$(/usr/local/bin/brew shellenv)"' >> "$HOME/.zprofile"
-            eval "$(/usr/local/bin/brew shellenv)"
-        fi
-    else
-        echo "$_INFO Homebrew already installed"
-    fi
-
-    # Install GNU coreutils for gls
-    echo "$_TASK Setup GNU coreutils (macOS)..."
-    if ! command -v gls &> /dev/null; then
-        brew install coreutils
-    else
-        echo "$_INFO gls already installed"
-    fi
 
     # Apply macOS system settings
     echo "$_TASK Apply macOS system settings..."
