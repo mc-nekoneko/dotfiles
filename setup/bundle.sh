@@ -26,4 +26,4 @@ fi
 
 # Install packages via Brewfile
 echo "$_TASK Installing packages via Brewfile..."
-brew bundle --file="$(dirname "$0")/../Brewfile"
+brew bundle --verbose --file="$(dirname "$0")/../Brewfile"
