@@ -79,7 +79,7 @@ cask "capcut"
 cask "chatgpt"
 cask "claude"
 cask "codex"
-cask "davinci-resolve"
+
 cask "discord"
 cask "filezilla"
 cask "firefox"
