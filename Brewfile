@@ -79,9 +79,8 @@ cask "capcut"
 cask "chatgpt"
 cask "claude"
 cask "codex"
-# cask "davinci-resolve"  # Not available via Homebrew, install manually from blackmagicdesign.com
+
 cask "discord"
-cask "filezilla"
 cask "firefox"
 cask "gather"
 cask "gcloud-cli"
