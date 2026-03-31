@@ -68,7 +68,7 @@ brew "watchman"
 # Apps
 cask "1password-cli"
 cask "alacritty"
-cask "alttab"
+cask "alt-tab"
 cask "android-studio"
 cask "appcleaner"
 cask "aqua-voice"
