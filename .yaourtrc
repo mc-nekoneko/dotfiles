@@ -1,6 +1,0 @@
-# Don't ask password
-SUDONOVERIF=1
-
-# Don't ask PKGBUILD
-BUILD_NOCONFIRM=1
-EDITFILES=0
