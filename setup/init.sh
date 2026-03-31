@@ -72,24 +72,36 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 
 echo "$_TASK Executing: 'vim PlugClean & PlugInstall'"
 # Disable ALE during plugin installation to prevent errors
-vim --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
-nvim --headless --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
+if command -v vim &> /dev/null; then
+    vim --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
+else
+    echo "$_WARN vim not found, skipping"
+fi
+if command -v nvim &> /dev/null; then
+    nvim --headless --cmd 'let g:ale_enabled=0' -c 'PlugClean!' -c 'PlugInstall' -c 'qa!'
+else
+    echo "$_WARN nvim not found, skipping"
+fi
 echo "$_TASK Installed vim packages"
 
 echo "$_TASK Installing LSP servers..."
 # Install LSP servers for common languages
-LSP_SERVERS=(
-    "typescript-language-server"
-    "gopls"
-    "rust-analyzer"
-    "vscode-html-language-server"
-    "vscode-css-language-server"
-)
-for server in "${LSP_SERVERS[@]}"; do
-    echo "$_INFO Installing LSP: $server"
-    nvim --headless -c "LspInstallServer $server" -c 'qa!' 2>/dev/null || true
-done
-echo "$_TASK Installed LSP servers"
+if command -v nvim &> /dev/null; then
+    LSP_SERVERS=(
+        "typescript-language-server"
+        "gopls"
+        "rust-analyzer"
+        "vscode-html-language-server"
+        "vscode-css-language-server"
+    )
+    for server in "${LSP_SERVERS[@]}"; do
+        echo "$_INFO Installing LSP: $server"
+        nvim --headless -c "LspInstallServer $server" -c 'qa!' 2>/dev/null || true
+    done
+    echo "$_TASK Installed LSP servers"
+else
+    echo "$_WARN nvim not found, skipping LSP installation"
+fi
 
 echo "$_INFO Operation success! starting zsh..."
 exec zsh

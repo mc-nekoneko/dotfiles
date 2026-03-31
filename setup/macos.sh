@@ -28,6 +28,7 @@ defaults write -g com.apple.swipescrolldirection -bool false
 defaults write com.apple.dock tilesize -int 69
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock show-recents -bool false
+defaults write com.apple.dock persistent-apps -array  # Remove all default app icons
 
 # Photos: Prevent auto-launch when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
@@ -37,5 +38,9 @@ defaults write com.apple.helpviewer DevMode -bool true
 
 # Bluetooth: increase audio quality
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+# Restart affected apps
+killall Dock &> /dev/null || true
+killall Finder &> /dev/null || true
 
 echo "Done! Some settings require a restart or re-login to take effect."
