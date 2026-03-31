@@ -21,8 +21,8 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
-# Scroll: Disable natural scrolling
-defaults write -g com.apple.swipescrolldirection -bool false
+# Scroll: Enable natural scrolling
+defaults write -g com.apple.swipescrolldirection -bool true
 
 # Dock
 defaults write com.apple.dock tilesize -int 69
